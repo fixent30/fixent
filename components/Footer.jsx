@@ -11,7 +11,9 @@ const Footer = () => {
           loading="lazy"
         ></iframe>
       </div>
-      <h2 className="my-2 text-white font-bold text-lg">@fixentComputer.com</h2>
+      <h2 className="my-2 text-white font-bold text-lg">
+      fixentrepairjalpaiguri@gmail.com
+    </h2>
     </footer>
   );
 };
