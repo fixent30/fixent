@@ -21,7 +21,7 @@ const Home = () => {
   }, [db])
 
   return (
-    <div className="w-full min-h-screen">
+    <div className="w-full min-h-screen ">
       <Head>
         <title>Fixent-(computer Reparing Site)</title>
         <meta
