@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { db } from "../utils/firebase";
 import getCollectionData from "../utils/getCollectionData";
-import useMediaQuery from "../utils/useMediaQuery";
 import Pricing from "./Pricing";
 
 const Services = () => {
@@ -22,8 +22,7 @@ const Services = () => {
 
     getLapData();
     getComData();
-  }, []);
-  const matches = useMediaQuery("(min-width:768px)");
+  }, [db]);
   return (
     <div name="Services" className="my-8 lg:w-[80%] mx-auto">
       <h2 className="text-center font-bold text-xl lg:text-2xl my-2">
@@ -34,8 +33,8 @@ const Services = () => {
         ref={ServicesRef}
         className="flex space-x-4 items-center realtive justify-between overflow-x-auto"
       >
-        <div className="min-w-[200px]  w-full h-[300px]">
-          <img src="/computer.jpeg" className="h-[50%]" />
+        <div className="min-w-[200px] flex flex-col items-center   w-full h-[300px]">
+          <img src="/computer.jpeg" className="h-[50%] w-[80%]" />
           <h2 className="text-lg leading-[2]  text-gray-900 font-medium ">
             Refurbished Computer
           </h2>
@@ -43,7 +42,7 @@ const Services = () => {
             We sell Refurbished Computer at very affordable price
           </p>
         </div>
-        <div className="min-w-[200px] w-full h-[300px]">
+        <div className="min-w-[200px] flex flex-col items-center w-full h-[300px]">
           <img src="/laptop.jpeg" className="h-[50%]" />
           <h2 className="text-lg leading-[2]  text-gray-900 font-medium ">
             Refurbished Laptop
@@ -52,7 +51,7 @@ const Services = () => {
             We alos sell Refurbished Laptops at very affordable price
           </p>
         </div>
-        <div className="min-w-[200px] w-full h-[300px]">
+        <div className="min-w-[200px] flex flex-col items-center w-full h-[300px]">
           <img src="/cleaning.jpeg" className="h-[50%]" />
           <h2 className="text-lg leading-[2]  text-gray-900 font-medium ">
             Computer Cleaning
@@ -61,7 +60,7 @@ const Services = () => {
             In out store we clean full pc or it's components
           </p>
         </div>
-        <div className="min-w-[200px] w-full h-[300px]">
+        <div className="min-w-[200px] w-full h-[300px] flex flex-col items-center">
           <img src="/creapring.jpg" className="h-[50%]" />
           <h2 className="text-lg leading-[2]  text-gray-900 font-medium ">
             Computer Reapring
@@ -70,7 +69,7 @@ const Services = () => {
             We can fix any kind of computer issue you have
           </p>
         </div>
-        <div className="min-w-[200px] w-full h-[300px]">
+        <div className="min-w-[200px] w-full h-[300px] flex flex-col items-center">
           <img src="/mreapring.jpeg" className="h-[50%]" />
           <h2 className="text-lg leading-[2]  text-gray-900 font-medium ">
             Mobile Reapring
@@ -81,12 +80,15 @@ const Services = () => {
         </div>
       </div>
       <div name="pricing">
-        <Pricing title={"Refurbished Laptop Price"} priceList={Lapdata} />
-
-        <Pricing
-          title={"Refurbished Computer Price"}
-          priceList={computerData}
-        />
+        {Lapdata && (
+          <Pricing title={"Refurbished Laptop Price"} priceList={Lapdata} />
+        )}
+        {computerData && (
+          <Pricing
+            title={"Refurbished Computer Price"}
+            priceList={computerData}
+          />
+        )}
       </div>
     </div>
   );

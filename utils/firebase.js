@@ -2,17 +2,17 @@ import { getApp, getApps, initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAdLOEzNfctYdVDaDtjEunbQsLvQ5FGMd8',
+  apiKey: 'AIzaSyCwdydZlCQWaFcBsGqVAZUh8BfcLfGUMIE',
 
-  authDomain: 'fixent-ffac1.firebaseapp.com',
+  authDomain: 'fixent-9cd3e.firebaseapp.com',
 
-  projectId: 'fixent-ffac1',
+  projectId: 'fixent-9cd3e',
 
-  storageBucket: 'fixent-ffac1.appspot.com',
+  storageBucket: 'fixent-9cd3e.appspot.com',
 
-  messagingSenderId: '566510992576',
+  messagingSenderId: '898031985539',
 
-  appId: '1:566510992576:web:79c48cdd554ec80ccd8125',
+  appId: '1:898031985539:web:e1c1a0f77d10f162930cb6',
 }
 
 // Initialize Firebase
