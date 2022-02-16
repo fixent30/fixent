@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-scroll";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const state = useSelector((state) => state.basket.items);
+
   return (
     <header className="flex items-center w-[80%] mx-auto justify-between">
       <img src="/logo.png" className="h-32 w-32 lg:h-40 lg:w-40" />
@@ -64,7 +67,7 @@ const Header = () => {
             />
           </svg>
           <span className="bg-red-500 text-white grid place-items-center rounded-full w-6 h-6">
-            5
+            {state.length}
           </span>
         </div>
       </div>
