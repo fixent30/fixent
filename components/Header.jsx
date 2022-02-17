@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-scroll";
 import { useSelector } from "react-redux";
 
-const Header = () => {
+const Header = ({ open, setOpen }) => {
   const state = useSelector((state) => state.basket.items);
 
   return (
@@ -51,7 +51,7 @@ const Header = () => {
         >
           Contact me
         </Link>
-        <div className="flex">
+        <div onClick={() => setOpen(!open)} className="flex">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-8 w-8 cursor-pointer"

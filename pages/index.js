@@ -9,16 +9,10 @@ import Services from '../components/Services'
 import Products from '../components/Products'
 import { db } from '../utils/firebase'
 import getCollectionData from '../utils/getCollectionData'
+import Cart from '../components/Cart'
 
-const Home = () => {
-  const [ProductsList, setProductsList] = useState([])
-  useEffect(() => {
-    const getProducts = async () => {
-      const res = await getCollectionData('Products')
-      setProductsList(res)
-    }
-    getProducts()
-  }, [db])
+const Home = ({ productsData }) => {
+  const [open, setOpen] = useState(false)
 
   return (
     <div className="w-full min-h-screen ">
@@ -30,16 +24,28 @@ const Home = () => {
         />
       </Head>
       <main className="px-2">
-        <Header />
+        <Header open={open} setOpen={setOpen} />
         <Hero />
         <About />
-        {ProductsList && <Products products={ProductsList} />}
+        {productsData && <Products products={productsData} />}
         <Services />
         <Contact />
+        <Cart open={open} setOpen={setOpen} />
       </main>
       <Footer />
     </div>
   )
+}
+
+export async function getStaticProps() {
+  const res = await getCollectionData('Products')
+  const json = JSON.stringify(res)
+  const productsData = JSON.parse(json)
+  return {
+    props: {
+      productsData,
+    },
+  }
 }
 
 export default Home
