@@ -1,28 +1,14 @@
 import { Drawer } from "@mantine/core";
-import { signInWithPopup } from "firebase/auth";
 import { useSelector } from "react-redux";
 import { getTotalPrice } from "../Redux/BusketSlice";
-import store from "../Redux/store";
-import { addUser } from "../Redux/UserSlice";
-import { auth, provider } from "../utils/firebase";
+import loginWidthGoogle from "../utils/loginWithGoogle";
+import useAutheticated from "../utils/useAutheticated";
 
 const Cart = ({ open, setOpen }) => {
   const state = useSelector((state) => state.basket.items);
   const total = useSelector(getTotalPrice);
 
-  const user = useSelector((state) => state.user.userId);
-
-  const loginWidthGoogle = async () => {
-    const res = await signInWithPopup(auth, provider);
-    store.dispatch(
-      addUser({
-        userId: res.user.uid,
-        name: res.user.displayName,
-        email: res.user.email,
-      })
-    );
-  };
-
+  const user = useAutheticated();
   return (
     <>
       <Drawer
@@ -33,6 +19,7 @@ const Cart = ({ open, setOpen }) => {
         padding={"xl"}
         size="xl"
       >
+        {/** if user is not authenticated he can't add product to cart*/}
         {user ? (
           <>
             <h2 className="text-2xl font-medium ">{`Total:  ₹${total} `}</h2>
@@ -45,7 +32,7 @@ const Cart = ({ open, setOpen }) => {
                 <img src={item.img} className="h-32 w-32" />
                 <div className="flex space-x-4">
                   <p className="text-[#ee2b59] font-bold text-lg">{`₹${item.price}`}</p>
-                  <p className="font-bold">{`Qauntity: ${item.quantity}`}</p>
+                  {/* <p className="font-bold">{`Qauntity: ${item?.quantity}`}</p> */}
                 </div>
               </div>
             ))}
