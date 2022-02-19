@@ -6,9 +6,7 @@ import Pricing from "./Pricing";
 const Services = () => {
   const ServicesRef = useRef(null);
   const [Lapdata, setLapData] = useState();
-  const Scroll = (offset) => {
-    ServicesRef.current.scrollLeft += offset;
-  };
+
   const [computerData, setComputerData] = useState();
   useEffect(() => {
     const getLapData = async () => {

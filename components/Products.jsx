@@ -5,6 +5,8 @@ import store from "../Redux/store";
 import { addToBasket } from "../Redux/BusketSlice";
 import { Alert, Modal } from "@mantine/core";
 import loginWidthGoogle from "../utils/loginWithGoogle";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../utils/firebase";
 
 const Products = ({ products }) => {
   const router = useRouter();
@@ -13,14 +15,7 @@ const Products = ({ products }) => {
 
   const addItemToBasket = (id, name, img, price) => {
     if (user) {
-      store.dispatch(
-        addToBasket({
-          id: id,
-          name: name,
-          img: img,
-          price: price,
-        })
-      );
+      store.dispatch(addToBasket({ id, name, img, price }));
     } else {
       setOpen(true);
       console.log("you are not");

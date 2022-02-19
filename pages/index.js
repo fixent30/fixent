@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import About from '../components/About'
 import Contact from '../components/Contact'
 import Footer from '../components/Footer'
@@ -9,9 +9,24 @@ import Services from '../components/Services'
 import Products from '../components/Products'
 import getCollectionData from '../utils/getCollectionData'
 import Cart from '../components/Cart'
+import { auth } from '../utils/firebase'
+import { useDispatch, useSelector } from 'react-redux'
+import { login, logout } from '../Redux/UserSlice'
 
 const Home = ({ productsData }) => {
   const [open, setOpen] = useState(false)
+  const state = useSelector((state) => state.basket.items)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        dispatch(login(user))
+      } else {
+        dispatch(logout())
+      }
+    })
+  }, [dispatch])
 
   return (
     <div className="w-full min-h-screen ">
@@ -36,7 +51,7 @@ const Home = ({ productsData }) => {
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await getCollectionData('Products')
   const json = JSON.stringify(res)
   const productsData = JSON.parse(json)

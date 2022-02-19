@@ -1,14 +1,20 @@
 import { Drawer } from "@mantine/core";
+import { useEffect } from "react";
+
 import { useSelector } from "react-redux";
 import { getTotalPrice } from "../Redux/BusketSlice";
 import loginWidthGoogle from "../utils/loginWithGoogle";
-import useAutheticated from "../utils/useAutheticated";
 
 const Cart = ({ open, setOpen }) => {
   const state = useSelector((state) => state.basket.items);
   const total = useSelector(getTotalPrice);
 
-  const user = useAutheticated();
+  const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    localStorage.setItem("cartItem", JSON.stringify(state));
+  }, [state]);
+
   return (
     <>
       <Drawer
@@ -32,7 +38,6 @@ const Cart = ({ open, setOpen }) => {
                 <img src={item.img} className="h-32 w-32" />
                 <div className="flex space-x-4">
                   <p className="text-[#ee2b59] font-bold text-lg">{`₹${item.price}`}</p>
-                  {/* <p className="font-bold">{`Qauntity: ${item?.quantity}`}</p> */}
                 </div>
               </div>
             ))}

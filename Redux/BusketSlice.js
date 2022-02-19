@@ -7,20 +7,12 @@ export const BasketSlice = createSlice({
   },
   reducers: {
     addToBasket: (state, actions) => {
-      // if product already exists in basket, increase quantity
-      if (state.items.map((item) => item.id).includes(actions.payload.id)) {
-        state.items.forEach((item) => {
-          if (item.id === actions.payload.id) {
-            item.quantity += 1
-          }
-        })
-      } else {
-        state.items = [...state.items, actions.payload]
-      }
-      return state
+      state.items.push(actions.payload)
     },
   },
 })
+
+// redux-thunk fetch data from firestore
 
 export const { addToBasket } = BasketSlice.actions
 
@@ -29,7 +21,7 @@ export const getTotalPrice = createSelector(
   (basket) => {
     let total = 0
     for (let id in basket) {
-      total += Number(basket[id].price)
+      total += Number(basket[id]?.price)
     }
     return total
   },
