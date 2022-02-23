@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-scroll";
-import { useSelector } from "react-redux";
+import { useStore } from "../Redux/useStore";
 
 const Header = ({ open, setOpen }) => {
-  const state = useSelector((state) => state.basket.items);
+  const count = useStore((state) => state.basket);
 
   return (
     <header className="flex items-center w-[80%] mx-auto justify-between">
@@ -67,7 +67,7 @@ const Header = ({ open, setOpen }) => {
             />
           </svg>
           <span className="bg-red-500 text-white grid place-items-center rounded-full w-6 h-6">
-            {state.length}
+            {count.length}
           </span>
         </div>
       </div>

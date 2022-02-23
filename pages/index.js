@@ -10,23 +10,20 @@ import Products from '../components/Products'
 import getCollectionData from '../utils/getCollectionData'
 import Cart from '../components/Cart'
 import { auth } from '../utils/firebase'
-import { useDispatch, useSelector } from 'react-redux'
-import { login, logout } from '../Redux/UserSlice'
+import { useUser } from '../Redux/useStore'
 
 const Home = ({ productsData }) => {
   const [open, setOpen] = useState(false)
-  const state = useSelector((state) => state.basket.items)
-  const dispatch = useDispatch()
+
+  const login = useUser((state) => state.login)
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
-        dispatch(login(user))
-      } else {
-        dispatch(logout())
+        login(user)
       }
     })
-  }, [dispatch])
+  }, [])
 
   return (
     <div className="w-full min-h-screen ">

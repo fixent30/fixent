@@ -2,18 +2,26 @@ import { Drawer } from "@mantine/core";
 import { useEffect } from "react";
 
 import { useSelector } from "react-redux";
-import { getTotalPrice } from "../Redux/BusketSlice";
-import loginWidthGoogle from "../utils/loginWithGoogle";
+import loginWidthGoogle from "../utils/loginwithGogole";
+import { useStore, useUser } from "../Redux/useStore";
 
 const Cart = ({ open, setOpen }) => {
-  const state = useSelector((state) => state.basket.items);
-  const total = useSelector(getTotalPrice);
+  const user = useUser((state) => state.user);
+  const basket = useStore((state) => state.basket);
 
-  const user = useSelector((state) => state.user);
+  const getTotalPrice = (basket) => {
+    let total = 0;
+    for (let id in basket) {
+      total += Number(basket[id].price);
+    }
+    return total;
+  };
+
+  const total = getTotalPrice(basket);
 
   useEffect(() => {
-    localStorage.setItem("cartItem", JSON.stringify(state));
-  }, [state]);
+    localStorage.setItem("cartItem", JSON.stringify(basket));
+  }, [basket]);
 
   return (
     <>
@@ -29,7 +37,7 @@ const Cart = ({ open, setOpen }) => {
         {user ? (
           <>
             <h2 className="text-2xl font-medium ">{`Total:  ₹${total} `}</h2>
-            {state.map((item) => (
+            {basket.map((item) => (
               <div
                 className="max-h-[200px] border my-4 p-3 rounded-md border-gray-400 w-[80%] overflow-hidden"
                 key={item.id}

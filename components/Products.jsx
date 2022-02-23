@@ -1,26 +1,23 @@
 import React, { useState } from "react";
-import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import store from "../Redux/store";
-import { addToBasket } from "../Redux/BusketSlice";
 import { Alert, Modal } from "@mantine/core";
-import loginWidthGoogle from "../utils/loginWithGoogle";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../utils/firebase";
+import loginwithGogole from "../utils/loginwithGogole";
+import { useStore, useUser } from "../Redux/useStore";
 
 const Products = ({ products }) => {
-  const router = useRouter();
-  const user = useSelector((state) => state.user.userId);
+  const user = useUser((state) => state.user.userId);
   const [opened, setOpen] = useState(false);
+
+  const addToBasket = useStore((state) => state.addToBasket);
 
   const addItemToBasket = (id, name, img, price) => {
     if (user) {
-      store.dispatch(addToBasket({ id, name, img, price }));
+      addToBasket({ id, name, img, price });
     } else {
       setOpen(true);
       console.log("you are not");
     }
   };
+
   return (
     <div className="space-y-4 w-[80%] mx-auto">
       <Modal opened={opened} onClose={() => setOpen(false)}>
@@ -29,7 +26,7 @@ const Products = ({ products }) => {
             You are not logged In please Log in
           </h2>
           <button
-            onClick={loginWidthGoogle}
+            onClick={loginwithGogole}
             className="flex items-center space-x-4 font-bold shadow-sm hover:shadow-lg p-4 rounded-xl"
           >
             <img
