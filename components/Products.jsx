@@ -38,7 +38,7 @@ const Products = ({ products }) => {
         </div>
       </Modal>
       <h2 className="text-center text-2xl font-bold ">Our Products</h2>
-      <div className="grid grid-cols-4 gap-5">
+      <div className="grid lg:grid-cols-4 grid-cols-1 gap-5">
         {products.map((product) => (
           <div
             key={product.docId}

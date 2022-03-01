@@ -6,7 +6,7 @@ const Header = ({ open, setOpen }) => {
   const count = useStore((state) => state.basket);
 
   return (
-    <header className="flex items-center w-[80%] mx-auto justify-between">
+    <header className="flex items-center lg:w-[80%] mx-auto justify-between">
       <img src="/logo.png" className="h-32 w-32 lg:h-40 lg:w-40" />
       <nav className="hidden lg:flex space-x-8 ">
         <Link
@@ -42,12 +42,12 @@ const Header = ({ open, setOpen }) => {
           pricing
         </Link>
       </nav>
-      <div className="flex space-x-4">
+      <div className="flex  space-x-4">
         <Link
           to="Contact"
           smooth
           delay={200}
-          className="bg-[#ee2b55] cursor-pointer p-2 rounded-md text-white"
+          className="bg-[#ee2b55] hidden lg:flex cursor-pointer p-2 rounded-md text-white"
         >
           Contact me
         </Link>
