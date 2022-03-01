@@ -4,12 +4,8 @@ import { persist } from 'zustand/middleware'
 export const useStore = create(
   persist((set, get) => ({
     basket: [],
-    // addToBasket: (item) => set(() => ({ basket: [...get(basket), item] })),
     addToBasket: (item) => {
-      if (get(basket).some((item) => item.id === item.id)) {
-      } else {
-        set(() => ({ basket: [...get(basket), item] }))
-      }
+      set((state) => ({ basket: [...state.basket, item] }))
     },
     total: () =>
       set(() => ({
