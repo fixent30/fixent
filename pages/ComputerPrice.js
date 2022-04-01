@@ -13,7 +13,7 @@ const ComputerPrice = ({ LapData, computerData }) => {
         <Header open={open} setOpen={setOpen} />
         <h2 className="text-center my-4 text-2xl font-bold">Laptop Prices</h2>
 
-        <div className="w-[80%] mx-auto grid grid-cols-3 gap-5">
+        <div className="w-[80%] mx-auto grid  lg:grid-cols-3 gap-5">
           {LapData?.map((item) => (
             <div key={item.id} className=" border p-5 rounded-xl">
               <p className="text-xl font-medium">{item.name}</p>
@@ -23,7 +23,7 @@ const ComputerPrice = ({ LapData, computerData }) => {
           ))}
         </div>
         <h2 className="text-center my-4 text-2xl font-bold">Computer Prices</h2>
-        <div className="w-[80%] my-5 mx-auto grid grid-cols-3 gap-10">
+        <div className="w-[80%] my-5 mx-auto grid lg:grid-cols-3 gap-10">
           {computerData?.map((item) => (
             <div
               key={item.id}
