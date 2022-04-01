@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
+import {  useState } from 'react'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
-import { db } from '../utils/firebase'
 import getCollectionData from '../utils/getCollectionData'
 
 const ComputerPrice = ({ LapData, computerData }) => {
@@ -15,7 +14,8 @@ const ComputerPrice = ({ LapData, computerData }) => {
 
         <div className="w-[80%] mx-auto grid  lg:grid-cols-3 gap-5">
           {LapData?.map((item) => (
-            <div key={item.id} className=" border p-5 rounded-xl">
+            <div key={item.id} className=" border flex flex-col items-center p-5  rounded-xl">
+              <img className='max-h-[300px]' src={item.pictures.src}/>
               <p className="text-xl font-medium">{item.name}</p>
               <h2 className="font-bold text-lg">{item.price}</h2>
               <p className="text-lg text-gray-600"> {item.speces}</p>
