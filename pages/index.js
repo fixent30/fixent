@@ -38,8 +38,8 @@ const Home = ({ productsData }) => {
         <Header open={open} setOpen={setOpen} />
         <Hero />
         <About />
-        {productsData && <Products products={productsData} />}
         <Services />
+        {productsData && <Products products={productsData} />}
         <Contact />
         <Cart open={open} setOpen={setOpen} />
       </main>

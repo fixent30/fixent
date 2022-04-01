@@ -1,4 +1,5 @@
 import React from "react";
+import NextLink from 'next/link'
 import { Link } from "react-scroll";
 import { useStore } from "../Redux/useStore";
 
@@ -7,7 +8,9 @@ const Header = ({ open, setOpen }) => {
 
   return (
     <header className="flex items-center lg:w-[80%] mx-auto justify-between">
-      <img src="/logo.png" className="h-32 w-32 lg:h-40 lg:w-40" />
+      <NextLink href="/">
+       <img src="/logo.png" className="h-32 w-32 lg:h-40 lg:w-40" />
+      </NextLink>
       <nav className="hidden lg:flex space-x-8 ">
         <Link
           className="transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold"

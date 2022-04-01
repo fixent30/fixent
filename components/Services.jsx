@@ -1,26 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import { db } from "../utils/firebase";
-import getCollectionData from "../utils/getCollectionData";
-import Pricing from "./Pricing";
+import { useRouter } from "next/router";
+import { useRef } from "react";
 
 const Services = () => {
   const ServicesRef = useRef(null);
-  const [Lapdata, setLapData] = useState();
+  const router = useRouter();
 
-  const [computerData, setComputerData] = useState();
-  useEffect(() => {
-    const getLapData = async () => {
-      const result = await getCollectionData("laptopPrices");
-      setLapData(result);
-    };
-    const getComData = async () => {
-      const res = await getCollectionData("computerPrices");
-      setComputerData(res);
-    };
-
-    getLapData();
-    getComData();
-  }, [db]);
   return (
     <div name="Services" className="my-8 lg:w-[80%] mx-auto">
       <h2 className="text-center font-bold text-xl lg:text-2xl my-2">
@@ -31,8 +15,17 @@ const Services = () => {
         ref={ServicesRef}
         className="flex space-x-4 items-center realtive justify-between overflow-x-auto"
       >
-        <div className="min-w-[200px] flex flex-col items-center   w-full h-[300px]">
-          <img src="/computer.jpeg" className="h-[50%] w-[80%]" />
+        <div
+          onClick={() => router.push("/ComputerPrice")}
+          className="min-w-[200px] group cursor-pointer  flex flex-col items-center   w-full h-[300px]"
+        >
+          <img
+            src="/computer.jpeg"
+            className="h-[50%] hover:scale-110 transition ease-out  duration-75  w-[80%]"
+          />
+          <h1 className="text-red-500 my-2 hidden group-hover:block transition duration-100 ease-out  font-bold text-xl">
+            Show more{" "}
+          </h1>
           <h2 className="text-lg leading-[2]  text-gray-900 font-medium ">
             Refurbished Computer
           </h2>
@@ -40,8 +33,17 @@ const Services = () => {
             We sell Refurbished Computer at very affordable price
           </p>
         </div>
-        <div className="min-w-[200px] flex flex-col items-center w-full h-[300px]">
-          <img src="/laptop.jpeg" className="h-[50%]" />
+        <div
+          onClick={() => router.push("/ComputerPrice")}
+          className="min-w-[200px] group cursor-pointer flex flex-col items-center w-full h-[300px]"
+        >
+          <img
+            src="/laptop.jpeg"
+            className="h-[50%] hover:scale-110 transition ease-out  duration-75"
+          />
+          <h1 className="text-red-500 my-2 hidden group-hover:block transition duration-100 ease-out  font-bold text-xl">
+            Show more{" "}
+          </h1>
           <h2 className="text-lg leading-[2]  text-gray-900 font-medium ">
             Refurbished Laptop
           </h2>
@@ -76,17 +78,6 @@ const Services = () => {
             we can fix all kind of issues you'r having with your mobile
           </p>
         </div>
-      </div>
-      <div name="pricing">
-        {Lapdata && (
-          <Pricing title={"Refurbished Laptop Price"} priceList={Lapdata} />
-        )}
-        {computerData && (
-          <Pricing
-            title={"Refurbished Computer Price"}
-            priceList={computerData}
-          />
-        )}
       </div>
     </div>
   );
