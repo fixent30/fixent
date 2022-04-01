@@ -1,50 +1,77 @@
 import React from "react";
-import NextLink from 'next/link'
+import NextLink from "next/link";
 import { Link } from "react-scroll";
 import { useStore } from "../Redux/useStore";
 
-const Header = ({ open, setOpen }) => {
+const Header = ({ open, setOpen, isHome }) => {
   const count = useStore((state) => state.basket);
 
   return (
     <header className="flex items-center lg:w-[80%] mx-auto justify-between">
       <NextLink href="/">
-       <img src="/logo.png" className="h-32 w-32 lg:h-40 lg:w-40" />
+        <img src="/logo.png" className="h-32 w-32 lg:h-40 lg:w-40" />
       </NextLink>
-      <nav className="hidden lg:flex space-x-8 ">
-        <Link
-          className="transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold"
-          to="Hero"
-          smooth={true}
-          delay={200}
-        >
-          Home
-        </Link>
-        <Link
-          className="transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold"
-          to="About"
-          smooth
-          delay={200}
-        >
-          About
-        </Link>
-        <Link
-          className="transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold"
-          to="Services"
-          smooth
-          delay={200}
-        >
-          Services
-        </Link>
-        <Link
-          className="transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold"
-          to="pricing"
-          smooth
-          delay={200}
-        >
-          pricing
-        </Link>
-      </nav>
+      {isHome ? (
+        <nav className="hidden lg:flex space-x-8 ">
+          <Link
+            className="transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold"
+            to="Hero"
+            smooth={true}
+            delay={200}
+          >
+            Home
+          </Link>
+          <Link
+            className="transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold"
+            to="About"
+            smooth
+            delay={200}
+          >
+            About
+          </Link>
+          <Link
+            className="transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold"
+            to="Services"
+            smooth
+            delay={200}
+          >
+            Services
+          </Link>
+          <Link
+            className="transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold"
+            to="pricing"
+            smooth
+            delay={200}
+          >
+            pricing
+          </Link>
+        </nav>
+      ) : (
+        <nav className="hidden lg:flex space-x-8 ">
+          <NextLink href="/">
+            <p className="text-lg transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold">
+              Home
+            </p>
+          </NextLink>
+          <Link
+            to="computerPrice"
+            smooth
+            delay={200}
+            className="transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold"
+          >
+            ComputerPrice
+          </Link>
+          <Link
+            smooth
+            delay={200}
+            to="laptopPrice"
+            className="transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold"
+          >
+            LaptopPrice
+          </Link>
+        </nav>
+      )}
+
       <div className="flex  space-x-4">
         <Link
           to="Contact"

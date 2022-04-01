@@ -12,7 +12,7 @@ const ComputerPrice = ({ LapData, computerData }) => {
         <Header open={open} setOpen={setOpen} />
         <h2 className="text-center my-4 text-2xl font-bold">Laptop Prices</h2>
 
-        <div className="w-[80%] mx-auto grid  lg:grid-cols-3 gap-5">
+        <div name="laptopPrice" className="w-[80%] mx-auto grid  lg:grid-cols-3 gap-5">
           {LapData?.map((item) => (
             <div key={item.id} className=" border flex flex-col items-center p-5  rounded-xl">
               <img className='max-h-[300px]' src={item.pictures.src}/>
@@ -23,7 +23,7 @@ const ComputerPrice = ({ LapData, computerData }) => {
           ))}
         </div>
         <h2 className="text-center my-4 text-2xl font-bold">Computer Prices</h2>
-        <div className="w-[80%] my-5 mx-auto grid lg:grid-cols-3 gap-10">
+        <div  name="computerPrice" className="w-[80%] my-5 mx-auto grid lg:grid-cols-3 gap-10">
           {computerData?.map((item) => (
             <div
               key={item.id}

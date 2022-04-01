@@ -35,7 +35,7 @@ const Home = ({ productsData }) => {
         />
       </Head>
       <main className="px-2">
-        <Header open={open} setOpen={setOpen} />
+        <Header isHome open={open} setOpen={setOpen} />
         <Hero />
         <About />
         <Services />
