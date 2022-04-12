@@ -1,73 +1,52 @@
-import { useForm } from "react-hook-form";
+import { Button, Input, Textarea, TextInput } from "@mantine/core";
 
 const Contact = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    resetField,
-  } = useForm();
-  const onSubmit = (data) => {
-    resetField("fullname");
-    resetField("email");
-    resetField("telephone");
-    resetField("message");
-    console.log(data);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = new FormData(e.target);
+    console.log(Object.fromEntries(data.entries()));
   };
+
   return (
-    <div name="Contact" className="my-4">
-      <h2 className="text-center font-bold lg:text-2xl  text-xl">Contact me</h2>
+    <section className="my-10">
+      <h2 className="text-2xl font-bold text-center">Contact Me</h2>
       <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col lg:w-[80%] mx-auto w-full space-y-2 items-center"
+        onSubmit={handleSubmit}
+        className="w-[60%] flex flex-col items-center  mx-auto space-y-4"
       >
-        <div className="inputContainer">
-          <label htmlFor="name">Full Name</label>
-          <input
-            className=""
-            type="text"
-            {...register("fullname", { required: true })}
-          />
-          {errors.fullname && (
-            <span className="text-sm text-red-500">This field is required</span>
-          )}
-        </div>
-        <div className="inputContainer">
-          <label htmlFor="email">Email address</label>
-          <input type="email" {...register("email", { required: true })} />
-        </div>
-        <div className="inputContainer">
-          <label htmlFor="telephone">Telephone</label>
-          <input
-            type="tel"
-            {...register("telephone", {
-              required: {
-                value: true,
-                message: "phone number is Required",
-              },
-              maxLength: {
-                value: 10,
-                message: "phone number should be of 10 degits",
-              },
-            })}
-          />
-          {errors.telephone && <span>{errors.telephone}</span>}
-        </div>
-        <div className="flex flex-col w-[95%] space-y-2 items-center">
-          <label htmlFor="message">Message</label>
-          <textarea
-            {...register("message", { required: true })}
-            className="w-full focus:outline-none bg-gray-300 rounded-md p-2"
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-[#ee2b55]  px-8 py-2 rounded-md text-white font-bold"
-        >
+        <TextInput
+          className="w-full"
+          placeholder="your name"
+          label="Full name"
+          required
+        />
+        <TextInput
+          placeholder="abc@gmail.com"
+          className="w-full"
+          label="Your Email"
+          type="email"
+          required
+        />
+        <TextInput
+          className="w-full"
+          placeholder="564556456465"
+          label="Phone Number"
+          required
+          // error="this is  not a valid phone number"
+          type="tel"
+        />
+
+        <Textarea
+          className="w-full"
+          label="Your Message"
+          required
+          placeholder="Message"
+        />
+        <button className="px-20 py-3 text-white font-bold  rounded-md bg-red-600">
           Submit
         </button>
       </form>
-    </div>
+    </section>
   );
 };
 
