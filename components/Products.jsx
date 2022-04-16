@@ -45,7 +45,7 @@ const Products = ({ products }) => {
             className="shadow-md hover:shadow-xl p-4 flex max-w-[500px] w-full flex-col items-center cursor-pointer hover:scale-105 transition duration-100 ease-out max-h-[400px] overflow-hidden border-gray-500 rounded-md"
           >
             <img
-              src={product?.img}
+              src={product.pictures.src}
               className=" h-[50%] object-contain w-[60%]"
               alt={product.name}
             />
