@@ -1,10 +1,11 @@
-import {  useState } from 'react'
-import Footer from '../components/Footer'
-import Header from '../components/Header'
-import getCollectionData from '../utils/getCollectionData'
+import { useState } from "react";
+import Image from "next/image";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import getCollectionData from "../utils/getCollectionData";
 
 const ComputerPrice = ({ LapData, computerData }) => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   return (
     <div>
@@ -12,10 +13,22 @@ const ComputerPrice = ({ LapData, computerData }) => {
         <Header open={open} setOpen={setOpen} />
         <h2 className="text-center my-4 text-2xl font-bold">Laptop Prices</h2>
 
-        <div name="laptopPrice" className="w-[80%] mx-auto grid  lg:grid-cols-3 gap-5">
+        <div
+          name="laptopPrice"
+          className="w-[80%] mx-auto grid  lg:grid-cols-3 gap-5"
+        >
           {LapData?.map((item) => (
-            <div key={item.id} className=" border flex flex-col items-center p-5  rounded-xl">
-              <img className='max-h-[300px]' src={item.pictures.src}/>
+            <div
+              key={item.id}
+              className=" border flex flex-col items-center p-5  rounded-xl"
+            >
+              <Image
+                width={300}
+                height={300}
+                objectFit="contain"
+                className="max-h-[300px]"
+                src={item.pictures.src}
+              />
               <p className="text-xl font-medium">{item.name}</p>
               <h2 className="font-bold text-lg">{item.price}</h2>
               <p className="text-lg text-gray-600"> {item.speces}</p>
@@ -23,7 +36,10 @@ const ComputerPrice = ({ LapData, computerData }) => {
           ))}
         </div>
         <h2 className="text-center my-4 text-2xl font-bold">Computer Prices</h2>
-        <div  name="computerPrice" className="w-[80%] my-5 mx-auto grid lg:grid-cols-3 gap-10">
+        <div
+          name="computerPrice"
+          className="w-[80%] my-5 mx-auto grid lg:grid-cols-3 gap-10"
+        >
           {computerData?.map((item) => (
             <div
               key={item.id}
@@ -41,26 +57,25 @@ const ComputerPrice = ({ LapData, computerData }) => {
       </main>
       <Footer />
     </div>
-  )
-}
-
+  );
+};
 
 export async function getServerSideProps() {
-  const res1 = await getCollectionData('laptopPrices')
-  const res2 = await getCollectionData('computerPrices')
+  const res1 = await getCollectionData("laptopPrices");
+  const res2 = await getCollectionData("computerPrices");
 
-  const json1 = JSON.stringify(res1)
-  const json2 = JSON.stringify(res2)
-  
-  const LapData = JSON.parse(json1)
-  const computerData = JSON.parse(json2)
+  const json1 = JSON.stringify(res1);
+  const json2 = JSON.stringify(res2);
+
+  const LapData = JSON.parse(json1);
+  const computerData = JSON.parse(json2);
 
   return {
     props: {
       LapData,
-      computerData
-    }
-  }
+      computerData,
+    },
+  };
 }
 
-export default ComputerPrice
+export default ComputerPrice;
