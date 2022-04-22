@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Alert, Modal } from "@mantine/core";
 import loginwithGogole from "../utils/loginwithGogole";
 import { useStore, useUser } from "../Redux/useStore";
+import ProductCard from "./ProductCard";
 
 const Products = ({ products }) => {
-  const user = useUser((state) => state.user.userId);
+  const user = useUser((state) => state.User);
   const [opened, setOpen] = useState(false);
 
   const addToBasket = useStore((state) => state.addToBasket);
@@ -17,6 +18,8 @@ const Products = ({ products }) => {
       console.log("you are not");
     }
   };
+
+  // console.log(products);
 
   return (
     <div className="space-y-4 w-[80%] mx-auto">
@@ -38,38 +41,20 @@ const Products = ({ products }) => {
         </div>
       </Modal>
       <h2 className="text-center text-2xl font-bold ">Our Products</h2>
-      <div className="grid lg:grid-cols-4 grid-cols-1 gap-5">
+      <div className="grid lg:grid-cols-3 w-full grid-cols-1 gap-10 ">
         {products.map((product) => (
-          <div
+          <ProductCard
+            addItemTobasket={() =>
+              addItemToBasket(
+                product.id,
+                product.name,
+                product.img,
+                product.price
+              )
+            }
             key={product.docId}
-            className="shadow-md hover:shadow-xl p-4 flex max-w-[500px] w-full flex-col items-center cursor-pointer hover:scale-105 transition duration-100 ease-out max-h-[400px] overflow-hidden border-gray-500 rounded-md"
-          >
-            <img
-              src={product.pictures.src}
-              className=" h-[50%] object-contain w-[60%]"
-              alt={product.name}
-            />
-            <h2 className="text-3xl text-center tracking-wide font-bold">
-              {product.name}
-            </h2>
-            <p className="text-xl text-[#ee2b59] font-bold">{`₹ ${product.price}`}</p>
-            {product.warrenty ? (
-              <p className="text-lg ">{`${product.warrenty} warrenty`}</p>
-            ) : null}
-            <button
-              onClick={() =>
-                addItemToBasket(
-                  product.docId,
-                  product.name,
-                  product.img,
-                  product.price
-                )
-              }
-              className="w-full hover:font-bold mt-auto py-2 bg-black text-white rounded-md"
-            >
-              Add to Cart
-            </button>
-          </div>
+            product={product}
+          />
         ))}
       </div>
     </div>

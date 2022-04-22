@@ -7,7 +7,7 @@ import { useStore, useUser } from "../Redux/useStore";
 import { getTotalPrice } from "../utils/getTotalPrice";
 
 const Cart = ({ open, setOpen }) => {
-  const user = useUser((state) => state.user);
+  const user = useUser((state) => state.User);
   const basket = useStore((state) => state.basket);
 
   const total = getTotalPrice(basket);

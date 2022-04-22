@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { useCollection } from "react-firebase-hooks/firestore";
 
 import About from "../components/About";
 import Contact from "../components/Contact";
@@ -12,19 +11,20 @@ import Products from "../components/Products";
 import getCollectionData from "../utils/getCollectionData";
 import Cart from "../components/Cart";
 import { auth } from "../utils/firebase";
-import { useUser } from "../Redux/useStore";
+import { useStore, useUser } from "../Redux/useStore";
 
 const Home = ({ productsData }) => {
   const [open, setOpen] = useState(false);
 
-  const login = useUser((state) => state.login);
+  const setUser = useUser((state) => state.setUser);
+  const basket = useStore((state) => state.basket);
 
-  // const [value] = useCollection(collection(db, "products"));
+  console.log(basket);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
-        login(user);
+        setUser(user);
       }
     });
   }, []);
