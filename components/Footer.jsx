@@ -6,9 +6,9 @@ const Footer = () => {
   return (
     <footer className="w-full flex flex-col  items-center h-auto bg-gray-800 overflow-hidden">
       <div className="w-full flex flex-col md:flex-row items-center justify-between">
-        <div className="flex items-center">
+        <div className="flex flex-col md:flex-row items-center">
           <img src="/logo.png" className="h-32  w-32 lg:w-64 lg:h-64" />
-          <div>
+          <div className="items-center flex flex-col">
             <h3 className="text-white font-bold text-2xl leading-normal">
               Ground floor, Saptarshi Apartment,
               <br /> Newtown Para , near 4 No Ghumti

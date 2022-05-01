@@ -1,30 +1,33 @@
 import React, { useState } from "react";
 import NextLink from "next/link";
-import { Link } from "react-scroll";
+import { Link, scroller } from "react-scroll";
 import { useStore, useUser } from "../Redux/useStore";
 import SignInForm from "./SignInform";
 import { Input } from "@mantine/core";
-import {
-  collection,
-  doc,
-  onSnapshot,
-  query,
-  queryEqual,
-  refEqual,
-} from "firebase/firestore";
-import { db } from "../utils/firebase";
+import Image from "next/image";
+import { useRouter } from "next/router";
 
-const Header = ({ open, setOpen, isHome }) => {
+const Header = ({ open, setOpen, isHome, productData }) => {
   const [opened, setOpened] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [searchList, setSearchList] = useState([]);
 
   const count = useStore((state) => state.basket);
   const user = useUser((state) => state.User);
 
+  const router = useRouter();
+
   const serachFilter = (e) => {
-    const ref = doc(collection(db, "Prodcuts"));
-    const snapshot = query();
-    console.log(snapshot);
+    if (e.key == "Enter") {
+      const res = productData.filter((val) =>
+        val.name.toLowerCase().includes(searchTerm)
+      );
+      setSearchList(res);
+      console.log(res);
+    } else {
+      setSearchList([]);
+    }
   };
 
   return (
@@ -33,7 +36,7 @@ const Header = ({ open, setOpen, isHome }) => {
         <img src="/logo.png" className="h-32 w-32 lg:h-40 lg:w-40" />
       </NextLink>
       {isHome ? (
-        <nav className="hidden lg:flex space-x-8 ">
+        <nav className="hidden lg:flex items-center space-x-8 ">
           <Link
             className="transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold"
             to="Hero"
@@ -42,6 +45,11 @@ const Header = ({ open, setOpen, isHome }) => {
           >
             Home
           </Link>
+          <NextLink href="/Categories">
+            <p className="text-lg transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold">
+              Categories
+            </p>
+          </NextLink>
           <Link
             className="transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold"
             to="About"
@@ -72,6 +80,11 @@ const Header = ({ open, setOpen, isHome }) => {
           <NextLink href="/">
             <p className="text-lg transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold">
               Home
+            </p>
+          </NextLink>
+          <NextLink href="/Categories">
+            <p className="text-lg transition cursor-pointer duration-600 hover:scale-110 ease-out hover:font-bold">
+              Categories
             </p>
           </NextLink>
           <Link
@@ -105,27 +118,46 @@ const Header = ({ open, setOpen, isHome }) => {
             <SignInForm opened={opened} setOpened={setOpened} />
           </>
         ) : null}
-        <Input
-          onKeyUp={(e) => serachFilter(e)}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          }
-          placeholder="search..."
-        />
+        <div className="flex flex-col relative ">
+          <Input
+            onKeyDown={(e) => serachFilter(e)}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            }
+            placeholder="search..."
+          />
+          <div className="absolute top-6 z-10 ">
+            {searchList.map((item) => (
+              <div
+                key={item.id}
+                onClick={() => scroller.scrollTo(`${item.id}`)}
+                className="p-2  cursor-pointer hover:bg-blue-100 space-x-4 border my-1 flex items-center bg-white"
+              >
+                <Image
+                  src={item.pictures.src}
+                  width={40}
+                  height={40}
+                  objectFit="contain"
+                />
+                <h2>{item.name}</h2>
+              </div>
+            ))}
+          </div>
+        </div>
         {user ? (
           <div onClick={() => setOpen(!open)} className="flex">
             <svg

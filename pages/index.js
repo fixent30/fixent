@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import About from "../components/About";
 import Contact from "../components/Contact";
@@ -10,24 +10,10 @@ import Services from "../components/Services";
 import Products from "../components/Products";
 import getCollectionData from "../utils/getCollectionData";
 import Cart from "../components/Cart";
-import { auth } from "../utils/firebase";
-import { useStore, useUser } from "../Redux/useStore";
+import { useStore } from "../Redux/useStore";
 
 const Home = ({ productsData }) => {
   const [open, setOpen] = useState(false);
-
-  const setUser = useUser((state) => state.setUser);
-  const basket = useStore((state) => state.basket);
-
-  console.log(basket);
-
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-      }
-    });
-  }, []);
 
   return (
     <div className="w-full min-h-screen ">
@@ -39,7 +25,12 @@ const Home = ({ productsData }) => {
         />
       </Head>
       <main className="px-2">
-        <Header isHome open={open} setOpen={setOpen} />
+        <Header
+          productData={productsData}
+          isHome
+          open={open}
+          setOpen={setOpen}
+        />
         <Hero />
         <About />
         <Services />

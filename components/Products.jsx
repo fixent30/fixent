@@ -41,7 +41,7 @@ const Products = ({ products }) => {
         </div>
       </Modal>
       <h2 className="text-center text-2xl font-bold ">Our Products</h2>
-      <div className="grid lg:grid-cols-3 w-full grid-cols-1 gap-10 ">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 w-full grid-cols-1 gap-10 ">
         {products.map((product) => (
           <ProductCard
             addItemTobasket={() =>

@@ -3,6 +3,7 @@ import Image from "next/image";
 const ProductCard = ({ product, addItemTobasket }) => {
   return (
     <article
+      name={product.id}
       onClick={addItemTobasket}
       className="p-5 cursor-pointer hover:shadow-xl transition duration-100 ease-out rounded-xl border space-y-2 flex flex-col items-center"
     >
@@ -11,11 +12,11 @@ const ProductCard = ({ product, addItemTobasket }) => {
           src={product.pictures.src}
           alt={product.pictures.title}
           width={150}
-          objectFit="contain"
+          className="object-contain"
           height={150}
         />
       </div>
-      <h2 className="text-2xl font-bold ">{product.name}</h2>
+      <h2 className="text-2xl text-center font-bold ">{product.name}</h2>
       <div className="flex space-x-2 items-center ">
         <p className="font-bold text-[#ee2b55] text-xl">{`₹${product.price}`}</p>
         <p className="font-bold text-green-600">40% off</p>
