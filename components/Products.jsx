@@ -13,15 +13,13 @@ const Products = ({ products }) => {
 
   const addItemToBasket = (id, name, img, price) => {
     if (user) {
-      addToBasket({ id, name, img, price });
+      addToBasket({ id, name, img, price, quantity: 1 });
       toast.success("Product Add successfully");
     } else {
       setOpen(true);
       console.log("you are not");
     }
   };
-
-  console.log(products);
 
   return (
     <div className="space-y-4 w-[80%] mx-auto">

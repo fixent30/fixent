@@ -5,7 +5,6 @@ import { useStore, useUser } from "../Redux/useStore";
 import SignInForm from "./SignInform";
 import { Input, Modal } from "@mantine/core";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import toast, { Toaster } from "react-hot-toast";
 
 const Header = ({ isHome, productData }) => {
@@ -40,6 +39,8 @@ const Header = ({ isHome, productData }) => {
     );
     toast.success("Product Removed");
   };
+
+  console.log(basket);
 
   return (
     <header className="flex items-center lg:w-[80%] mx-auto justify-between">
@@ -213,8 +214,13 @@ const Header = ({ isHome, productData }) => {
                           />
 
                           <p className="text-xl font-medium">{item.name}</p>
+                          {item.quantity && (
+                            <p className="text-white rounded-full p-1 text-sm w-6 grid place-items-center h-6 bg-red-600 font-bold">
+                              {item.quantity}
+                            </p>
+                          )}
                         </div>
-                        <p>{`₹${item.price}`}</p>
+                        <p>{`₹ ${item.price} * ${item.quantity}`}</p>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-6 w-6 cursor-pointer"

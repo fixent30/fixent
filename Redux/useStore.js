@@ -5,7 +5,15 @@ export const useStore = create(
   persist((set, get) => ({
     basket: [],
     addToBasket: (item) => {
-      set((state) => ({ basket: [...state.basket, item] }));
+      let exsistingItem = get().basket.find((e) => e.id == item.id);
+
+      if (exsistingItem) {
+        set((state) => (exsistingItem.quantity += 1));
+      } else {
+        set((state) => ({
+          basket: [...state.basket, item],
+        }));
+      }
     },
     total: () =>
       set(() => ({
