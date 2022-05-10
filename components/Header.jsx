@@ -3,11 +3,12 @@ import NextLink from "next/link";
 import { Link, scroller } from "react-scroll";
 import { useStore, useUser } from "../Redux/useStore";
 import SignInForm from "./SignInform";
-import { Input } from "@mantine/core";
+import { Input, Modal } from "@mantine/core";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import toast, { Toaster } from "react-hot-toast";
 
-const Header = ({ open, setOpen, isHome, productData }) => {
+const Header = ({ isHome, productData }) => {
   const [opened, setOpened] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -16,7 +17,7 @@ const Header = ({ open, setOpen, isHome, productData }) => {
   const count = useStore((state) => state.basket);
   const user = useUser((state) => state.User);
 
-  const router = useRouter();
+  const [open, setOpen] = useState(false);
 
   const serachFilter = (e) => {
     if (e.key == "Enter") {
@@ -28,6 +29,16 @@ const Header = ({ open, setOpen, isHome, productData }) => {
     } else {
       setSearchList([]);
     }
+  };
+
+  const basket = useStore((state) => state.basket);
+
+  const removeItemfromBasket = (item) => {
+    basket.splice(
+      basket.findIndex((e) => e.name === item.id),
+      1
+    );
+    toast.success("Product Removed");
   };
 
   return (
@@ -159,25 +170,73 @@ const Header = ({ open, setOpen, isHome, productData }) => {
           </div>
         </div>
         {user ? (
-          <div onClick={() => setOpen(!open)} className="flex">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8 cursor-pointer"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-              />
-            </svg>
-            <span className="bg-red-500 text-white grid place-items-center rounded-full w-6 h-6">
-              {count.length}
-            </span>
-          </div>
+          <>
+            <div onClick={() => setOpen(!open)} className="flex relative">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8 cursor-pointer"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+              <span className="bg-red-500 text-white grid place-items-center rounded-full w-6 h-6">
+                {count.length}
+              </span>
+              {open && (
+                <Modal
+                  opened={open}
+                  centered
+                  overlayOpacity={0.55}
+                  radius="md"
+                  overflow="inside"
+                  onClose={() => setOpen(false)}
+                  title="cart"
+                >
+                  <Toaster />
+                  <div>
+                    {basket.map((item) => (
+                      <div
+                        key={item.id}
+                        className="flex space-x-4 border-b pb-2 justify-between items-center"
+                      >
+                        <div className="flex space-x-2 items-center">
+                          <img
+                            src={item.img}
+                            className="h-10 w-10 object-contain"
+                          />
+
+                          <p className="text-xl font-medium">{item.name}</p>
+                        </div>
+                        <p>{`₹${item.price}`}</p>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6 cursor-pointer"
+                          fill="none"
+                          onClick={() => removeItemfromBasket(item)}
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </div>
+                    ))}
+                  </div>
+                </Modal>
+              )}
+            </div>
+          </>
         ) : null}
       </div>
     </header>

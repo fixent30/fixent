@@ -18,8 +18,16 @@ const ProductCard = ({ product, addItemTobasket }) => {
       </div>
       <h2 className="text-2xl text-center font-bold ">{product.name}</h2>
       <div className="flex space-x-2 items-center ">
-        <p className="font-bold text-[#ee2b55] text-xl">{`₹${product.price}`}</p>
-        <p className="font-bold text-green-600">40% off</p>
+        <p
+          className={`font-bold text-[#ee2b55] text-xl ${
+            product.discount && "line-through"
+          }`}
+        >{`₹${product.price}`}</p>
+        {product.discount && (
+          <p className="font-bold text-xl text-green-600">
+            ₹{Number(product.price) - (product.price * product.discount) / 100}
+          </p>
+        )}
       </div>
       <div className="flex space-x-4 mt-auto">
         <button className="bg-black  text-white font-bold px-6 py-2 rounded-2xl">

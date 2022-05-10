@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Alert, Modal } from "@mantine/core";
+import { Modal } from "@mantine/core";
+import { Toaster, toast } from "react-hot-toast";
 import loginwithGogole from "../utils/loginwithGogole";
 import { useStore, useUser } from "../Redux/useStore";
 import ProductCard from "./ProductCard";
@@ -13,13 +14,14 @@ const Products = ({ products }) => {
   const addItemToBasket = (id, name, img, price) => {
     if (user) {
       addToBasket({ id, name, img, price });
+      toast.success("Product Add successfully");
     } else {
       setOpen(true);
       console.log("you are not");
     }
   };
 
-  // console.log(products);
+  console.log(products);
 
   return (
     <div className="space-y-4 w-[80%] mx-auto">
@@ -42,13 +44,14 @@ const Products = ({ products }) => {
       </Modal>
       <h2 className="text-center text-2xl font-bold ">Our Products</h2>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 w-full grid-cols-1 gap-10 ">
+        <Toaster position="top-right" />
         {products.map((product) => (
           <ProductCard
             addItemTobasket={() =>
               addItemToBasket(
                 product.id,
                 product.name,
-                product.img,
+                product.img ? product.img : product.pictures.src,
                 product.price
               )
             }

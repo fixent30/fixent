@@ -1,13 +1,25 @@
 import { useState } from "react";
 import { Input, Modal } from "@mantine/core";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import {
+  useSignInWithEmailAndPassword,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
 import { auth } from "../utils/firebase";
+import { useRouter } from "next/router";
 
 const SignInForm = ({ opened, setOpened }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+  const [signInWithGoogle] = useSignInWithGoogle(auth);
+
+  const router = useRouter();
+
+  const SignInGoogle = () => {
+    signInWithGoogle();
+    router.push("/");
+  };
 
   return (
     <Modal
@@ -64,9 +76,16 @@ const SignInForm = ({ opened, setOpened }) => {
       >
         Log in
       </button>
-      {/* <button className="w-full   my-4 shadow-xl px-8 rounded-2xl font-bold py-2">
-            Sign In With Google
-          </button> */}
+      <button
+        onClick={() => SignInGoogle()}
+        className="w-full flex items-center shadow-md justify-center space-x-4  my-4 border px-8 rounded-2xl font-bold py-2"
+      >
+        <img
+          className="w-6 h-6"
+          src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png"
+        />
+        <p>Sign In With Google</p>{" "}
+      </button>
     </Modal>
   );
 };

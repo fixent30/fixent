@@ -13,8 +13,6 @@ import Cart from "../components/Cart";
 import { useStore } from "../Redux/useStore";
 
 const Home = ({ productsData }) => {
-  const [open, setOpen] = useState(false);
-
   return (
     <div className="w-full min-h-screen ">
       <Head>
@@ -25,18 +23,12 @@ const Home = ({ productsData }) => {
         />
       </Head>
       <main className="px-2">
-        <Header
-          productData={productsData}
-          isHome
-          open={open}
-          setOpen={setOpen}
-        />
+        <Header productData={productsData} isHome />
         <Hero />
         <About />
         <Services />
         {productsData && <Products products={productsData} />}
         <Contact />
-        <Cart open={open} setOpen={setOpen} />
       </main>
       <Footer />
     </div>
