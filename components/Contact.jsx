@@ -1,10 +1,30 @@
-import { Button, Input, Textarea, TextInput } from "@mantine/core";
+import { useState } from "react";
+import { Textarea, TextInput } from "@mantine/core";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
 const Contact = () => {
-  const handleSubmit = (e) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData(e.target);
-    console.log(Object.fromEntries(data.entries()));
+    await axios.post(
+      "https://l674j9rggb.execute-api.ap-south-1.amazonaws.com/dev",
+      {
+        name: name,
+        email: email,
+        phoneNumber: phone,
+        message: message,
+      }
+    );
+    toast.success("Message Submitted Successfully");
+    setName("");
+    setEmail("");
+    setMessage("");
+    setPhone("");
   };
 
   return (
@@ -17,14 +37,20 @@ const Contact = () => {
         <TextInput
           className="w-full"
           placeholder="your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           label="Full name"
+          name="name"
           required
         />
         <TextInput
           placeholder="abc@gmail.com"
           className="w-full"
+          onChange={(e) => setEmail(e.target.value)}
           label="Your Email"
+          value={email}
           type="email"
+          name="email"
           required
         />
         <TextInput
@@ -32,7 +58,9 @@ const Contact = () => {
           placeholder="564556456465"
           label="Phone Number"
           required
-          // error="this is  not a valid phone number"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          name="phone"
           type="tel"
         />
 
@@ -40,6 +68,9 @@ const Contact = () => {
           className="w-full"
           label="Your Message"
           required
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          name="message"
           placeholder="Message"
         />
         <button className="px-20 py-3 text-white font-bold  rounded-md bg-red-600">
