@@ -220,7 +220,11 @@ const Header = ({ isHome, productData }) => {
                             </p>
                           )}
                         </div>
-                        <p>{`₹ ${item.price} * ${item.quantity}`}</p>
+                        {
+                          <p>{`₹ ${item.price}   *${
+                            item.quantity && item.quantity
+                          }`}</p>
+                        }
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-6 w-6 cursor-pointer"

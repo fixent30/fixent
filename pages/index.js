@@ -8,8 +8,19 @@ import Hero from "../components/Hero";
 import Services from "../components/Services";
 import Products from "../components/Products";
 import getCollectionData from "../utils/getCollectionData";
+import { useEffect, useState } from "react";
 
-const Home = ({ productsData }) => {
+const Home = () => {
+  const [products, setProducts] = useState([]);
+  const fetchproducts = async () => {
+    const products = await getCollectionData("Products");
+    setProducts(products);
+  };
+
+  useEffect(() => {
+    fetchproducts();
+  }, []);
+
   return (
     <div className="w-full min-h-screen ">
       <Head>
@@ -20,27 +31,16 @@ const Home = ({ productsData }) => {
         />
       </Head>
       <main className="px-2">
-        <Header productData={productsData} isHome />
+        <Header productData={products} isHome />
         <Hero />
         <About />
         <Services />
-        {productsData && <Products products={productsData} />}
+        {products && <Products products={products} />}
         <Contact />
       </main>
       <Footer />
     </div>
   );
 };
-
-export async function getServerSideProps() {
-  const res = await getCollectionData("Products");
-  const json = JSON.stringify(res);
-  const productsData = JSON.parse(json);
-  return {
-    props: {
-      productsData,
-    },
-  };
-}
 
 export default Home;

@@ -1,11 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import getCollectionData from "../utils/getCollectionData";
 
-const ComputerPrice = ({ LapData, computerData }) => {
+const ComputerPrice = () => {
+  const [lapdata, setLapData] = useState([]);
+  const [computerData, setComputerData] = useState([]);
+
   const [open, setOpen] = useState(false);
+
+  const fetchComputerPrice = async () => {
+    const compData = await getCollectionData("computerPrices");
+    setComputerData(compData);
+  };
+
+  const fetchLaptopPrice = async () => {
+    const lapData = await getCollectionData("laptopPrices");
+    setLapData(lapData);
+  };
+
+  useEffect(() => {
+    fetchComputerPrice();
+    fetchLaptopPrice();
+  }, []);
+
+  console.log(lapdata);
+  console.log(computerData);
 
   return (
     <div>
@@ -17,7 +38,7 @@ const ComputerPrice = ({ LapData, computerData }) => {
           name="laptopPrice"
           className="w-[80%] mx-auto grid  lg:grid-cols-3 gap-5"
         >
-          {LapData?.map((item) => (
+          {lapdata?.map((item) => (
             <div
               key={item.id}
               className=" border flex flex-col items-center p-5  rounded-xl"
@@ -60,22 +81,22 @@ const ComputerPrice = ({ LapData, computerData }) => {
   );
 };
 
-export async function getServerSideProps() {
-  const res1 = await getCollectionData("laptopPrices");
-  const res2 = await getCollectionData("computerPrices");
+// export async function getServerSideProps() {
+//   const res1 = await getCollectionData("laptopPrices");
+//   const res2 = await getCollectionData("computerPrices");
 
-  const json1 = JSON.stringify(res1);
-  const json2 = JSON.stringify(res2);
+//   const json1 = JSON.stringify(res1);
+//   const json2 = JSON.stringify(res2);
 
-  const LapData = JSON.parse(json1);
-  const computerData = JSON.parse(json2);
+//   const LapData = JSON.parse(json1);
+//   const computerData = JSON.parse(json2);
 
-  return {
-    props: {
-      LapData,
-      computerData,
-    },
-  };
-}
+//   return {
+//     props: {
+//       LapData,
+//       computerData,
+//     },
+//   };
+// }
 
 export default ComputerPrice;

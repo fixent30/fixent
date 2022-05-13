@@ -5,6 +5,8 @@ import loginwithGogole from "../utils/loginwithGogole";
 import { useStore, useUser } from "../Redux/useStore";
 import ProductCard from "./ProductCard";
 
+//TODO: add discounted price to the cart not the real price
+
 const Products = ({ products }) => {
   const user = useUser((state) => state.User);
   const [opened, setOpen] = useState(false);
