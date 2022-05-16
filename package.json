@@ -19,6 +19,7 @@
     "react-hook-form": "^7.26.1",
     "react-hot-toast": "^2.2.0",
     "react-scroll": "^1.8.4",
+    "tailwind-scrollbar-hide": "^1.1.7",
     "zustand": "^3.7.0"
   },
   "devDependencies": {

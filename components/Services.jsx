@@ -70,12 +70,13 @@ const Services = () => {
           </p>
         </div>
         <div className="min-w-[200px] w-full h-[300px] flex flex-col items-center">
-          <img src="/mreapring.jpeg" className="h-[50%]" />
+          <img src="/newcom.webp" className="h-[50%]" />
           <h2 className="text-lg leading-[2]  text-gray-900 font-medium ">
-            Mobile Reapring
+            New Computer
           </h2>
           <p className="font-light text-gray-600">
-            we can fix all kind of issues you'r having with your mobile
+            Now you can also get new computer in out store with latest
+            technology
           </p>
         </div>
       </div>

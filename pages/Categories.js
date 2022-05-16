@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Router from "next/router";
 
 import getCollectionData from "../utils/getCollectionData";
 
-const Categories = ({ productsData }) => {
+const Categories = () => {
   const [seatchTerm, setSearchTerm] = useState();
-  const [Rangevalue, setRangeValue] = useState(100);
 
   const [minValue, setMinValue] = useState(10);
   const [maxValue, setMaxValue] = useState(150);
@@ -24,21 +23,25 @@ const Categories = ({ productsData }) => {
   ];
   const [tag, setTag] = useState();
 
-  const [list, setList] = useState(productsData);
-
-  const setEndValue = (value) => {
-    console.log(value);
-  };
+  const [list, setList] = useState([]);
 
   const ApplyMinMax = () => {
-    const res = productsData.filter(
-      (val) => Number(val.price) > minValue && Number(val.price) < maxValue
+    const res = list.filter(
+      (val) =>
+        Number(val.price - (val.price * val.discount) / 100) > minValue &&
+        Number(val.price - (val.price * val.discount) / 100) < maxValue
     );
+
     setList(res);
   };
 
+  const fetchProduct = async () => {
+    const data = await getCollectionData("Products");
+    setList(data);
+  };
+
   const filterResult = () => {
-    const res = productsData.filter((val) =>
+    const res = list.filter((val) =>
       val.name.toLowerCase().includes(seatchTerm)
     );
     setList(res);
@@ -47,10 +50,14 @@ const Categories = ({ productsData }) => {
   const ApplyTags = (item) => {
     console.log("item", item);
     setTag(item);
-    const res = productsData.filter((val) => val.tag == item);
+    const res = list.filter((val) => val.tag == item);
     setList(res);
     console.log(res);
   };
+
+  useEffect(() => {
+    fetchProduct();
+  }, []);
 
   return (
     <div>
@@ -99,17 +106,6 @@ const Categories = ({ productsData }) => {
             ))}
           </div>
 
-          {/* <p className="font-bold text-xl ">{Rangevalue}</p>
-
-          <Slider
-            value={Rangevalue}
-            color="red"
-            min={100}
-            max={5000}
-            onChange={setRangeValue}
-            onChangeEnd={setEndValue}
-          /> */}
-
           <div className="flex space-x-4">
             <div>
               <p>Min</p>
@@ -137,7 +133,7 @@ const Categories = ({ productsData }) => {
             Apply
           </button>
         </div>
-        <div className="grid grid-cols-4 py-10 px-8 gap-10 overflow-scroll h-screen">
+        <div className="grid grid-cols-4 scrollbar-hide py-10 px-8 gap-10 overflow-scroll h-screen">
           {list.map((product) => (
             <article
               key={product.docId}
@@ -151,7 +147,11 @@ const Categories = ({ productsData }) => {
               />
               <h2 className="text-center font-bold text-2xl">{product.name}</h2>
               <p className="text-xl my-auto font-bold text-[#ee2b55]">
-                {product.price}
+                ₹
+                {Math.floor(
+                  Number(product.price) -
+                    (product.price * product.discount) / 100
+                )}
               </p>
             </article>
           ))}
@@ -160,16 +160,5 @@ const Categories = ({ productsData }) => {
     </div>
   );
 };
-
-export async function getServerSideProps() {
-  const res = await getCollectionData("Products");
-  const json = JSON.stringify(res);
-  const productsData = JSON.parse(json);
-  return {
-    props: {
-      productsData,
-    },
-  };
-}
 
 export default Categories;
