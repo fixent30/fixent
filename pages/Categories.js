@@ -24,7 +24,7 @@ const Categories = () => {
   const [tag, setTag] = useState();
 
   const [list, setList] = useState([]);
-
+  const [filterList, setFilterList] = useState(list);
   const ApplyMinMax = () => {
     const res = list.filter(
       (val) =>
@@ -48,24 +48,23 @@ const Categories = () => {
   };
 
   const ApplyTags = (item) => {
-    console.log("item", item);
     setTag(item);
     const res = list.filter((val) => val.tag == item);
-    setList(res);
+    setFilterList(res);
     console.log(res);
   };
 
   useEffect(() => {
     fetchProduct();
   }, []);
-
+  console.log(filterList);
   return (
     <div>
       <main className="w-[80%] mx-auto bg-white flex space-x-5">
         <div className="space-y-6  max-w-[350px] my-8 p-5">
           <div
             onClick={() => Router.back()}
-            className="cursor-pointer hover:bg-gray-300 w-10 h-10 grid place-items-center rounded-md"
+            className="w-10 h-10 cursor-pointer hover:bg-gray-300 grid place-items-center rounded-md"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -133,8 +132,8 @@ const Categories = () => {
             Apply
           </button>
         </div>
-        <div className="grid grid-cols-4 scrollbar-hide py-10 px-8 gap-10 overflow-scroll h-screen">
-          {list.map((product) => (
+        <div className="h-screen px-8 py-10 overflow-scroll grid grid-cols-4 scrollbar-hide gap-10">
+          {filterList.map((product) => (
             <article
               key={product.docId}
               className="p-4 flex max-h-[300px] cursor-pointer hover:shadow-lg  border flex-col items-center"
@@ -145,14 +144,17 @@ const Categories = () => {
                 height={200}
                 objectFit="contain"
               />
-              <h2 className="text-center font-bold text-2xl">{product.name}</h2>
-              <p className="text-xl my-auto font-bold text-[#ee2b55]">
-                ₹
-                {Math.floor(
-                  Number(product.price) -
-                    (product.price * product.discount) / 100
-                )}
-              </p>
+              <h2 className="text-2xl font-bold text-center">{product.name}</h2>
+              <div className="flex my-auto space-x-4">
+                <p className="text-xl font-bold text-green-600">
+                  ₹
+                  {Math.floor(
+                    Number(product.price) -
+                      (product.price * product.discount) / 100
+                  )}
+                </p>
+                <p className="text-xl font-bold line-through text-[#ee2b55] ">₹ {product.price}</p>
+              </div>
             </article>
           ))}
         </div>
